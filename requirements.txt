@@ -1,5 +1,8 @@
 flask
+pandas
 mysql-client
 mysqlclient
 mysql-connector-python
 python-dotenv
+pysftp
+jellyfish
