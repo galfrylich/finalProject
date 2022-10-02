@@ -1,9 +1,10 @@
 #!/usr/bin/python
 import os
-import csv
 import MySQLdb
 from dotenv import load_dotenv
 load_dotenv()
+import pandas as pd
+
 
 
 def create_connection():
@@ -11,37 +12,42 @@ def create_connection():
         os.environ.get('DB_UNAME'),os.environ.get('DB_PASSWORD'))
         return conn
 
-#add check if file allredy adde to database. 
-#path from csv files
-#call get csv files module
-path = "./csv_files/1.csv"
-def init_db():
-        with open(path,encoding="utf16") as csv_file:
-                csv_reader = csv.reader(csv_file, delimiter = '\t')
-                all_rows = []
-                next(csv_reader)
-                for row in csv_reader:
-                        all_rows.append(row)
-                        
+
+""" 
+    configuration of databse
+    create_connection(): connect to db.
+    init(): initialize the database and table with correct colums data.
+    insert_to_db(): run attendance caculation algorithem and insert the result to databse.
+
+"""
+
+def init_db():     
         #create connection
         conn = create_connection()
-        query ="USE attendance_DB; INSERT INTO attendance_list (name,email,attendance_duration) VALUES (%s,%s,%s);"
-
-
-
         #check if the connection is open, then create a new table.
         if conn.open:
                 cursor = conn.cursor()
                 cursor.execute("CREATE DATABASE if not exists attendance_DB")
                 print("attendance_DB database is created")
                 cursor.execute("USE attendance_DB")
-                cursor.execute("CREATE TABLE IF NOT EXISTS attendance_list(ID int NOT NULL AUTO_INCREMENT, name varchar(255) NOT NULL, email varchar(255) NOT NULL,attendance_duration varchar(255) NOT NULL,PRIMARY KEY (ID));")
-                cursor.executemany(query,all_rows)
+                #cursor.execute("DROP TABLE IF EXISTS attendance_list")
+                cursor.execute("CREATE TABLE IF NOT EXISTS attendance_list(name varchar(255),average varchar(255));")
                 cursor.close() 
         else:
                 print("there is no connection")
 
         conn.commit()
-
-
-   
+        return conn
+        
+def insert_to_db(path,file_id,conn):
+        os.system('python attendance_caculate.py /app/csv_files')
+        csv_path = os.getcwd() + '/attendance_result.csv'
+        df_result = pd.read_csv(csv_path, index_col=False, delimiter=',')
+        df_filtered = df_result[['names', 'average']].copy()
+        cursor = conn.cursor()
+        cursor.execute("USE attendance_DB")
+        for row in df_filtered.iterrows():
+                query = "INSERT INTO attendance_DB.attendance_list VALUES (%s, %s)"
+                cursor.execute(query, tuple(row))
+        conn.commit()
+        
