@@ -6,11 +6,12 @@ import sys
 load_dotenv()
 
 
-Hostname = os.environ.get('REMOTE_IP')
-Username = os.environ.get('REMOT_UNAME')
-Password = os.environ.get('REMOT_PASS')
-path1 = os.environ.get('DIR_PATH')
 
+""" 
+    connecting to server with sftp connection, to transfer all csv files
+    return all csv file names. 
+
+"""
 
 def file_transfer():
    # try:
