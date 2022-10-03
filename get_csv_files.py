@@ -22,7 +22,7 @@ def file_transfer():
             print("Connection successfully established ... ")
             # Switch to a remote directory
             sftp.cwd('/var/tmp/csv_files')
-            local_dir = '/app/csv_files'
+            local_dir = os.environ.get('DIR_PATH')
             # Obtain structure of the remote directory
             csv_files = []
             directory_structure = sftp.listdir_attr()

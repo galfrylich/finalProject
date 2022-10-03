@@ -4,7 +4,7 @@ import MySQLdb
 from dotenv import load_dotenv
 load_dotenv()
 import pandas as pd
-
+from get_csv_files import *
 
 
 def create_connection():
@@ -30,7 +30,7 @@ def init_db():
                 cursor.execute("CREATE DATABASE if not exists attendance_DB")
                 print("attendance_DB database is created")
                 cursor.execute("USE attendance_DB")
-                #cursor.execute("DROP TABLE IF EXISTS attendance_list")
+                cursor.execute("DROP TABLE IF EXISTS attendance_list")
                 cursor.execute("CREATE TABLE IF NOT EXISTS attendance_list(name varchar(255),average varchar(255));")
                 cursor.close() 
         else:
@@ -39,15 +39,17 @@ def init_db():
         conn.commit()
         return conn
         
-def insert_to_db(path,file_id,conn):
+def insert_to_db(conn):
+        file_transfer()
         os.system('python attendance_caculate.py /app/csv_files')
         csv_path = os.getcwd() + '/attendance_result.csv'
         df_result = pd.read_csv(csv_path, index_col=False, delimiter=',')
         df_filtered = df_result[['names', 'average']].copy()
         cursor = conn.cursor()
         cursor.execute("USE attendance_DB")
-        for row in df_filtered.iterrows():
+        for i, row in df_filtered.iterrows():
                 query = "INSERT INTO attendance_DB.attendance_list VALUES (%s, %s)"
-                cursor.execute(query, tuple(row))
+                cursor.execute(query,tuple(row))
+
         conn.commit()
-        
+     
