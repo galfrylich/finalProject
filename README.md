@@ -18,4 +18,4 @@ REMOT_UNAME=${REMOT_UNAME}
 
 ## screen shot example
 
-![This is an image](./screen_shots/SharedScreenshot.jpg)
+![This is an image](./screen_shots/Screenshot.jpg)
