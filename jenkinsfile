@@ -4,7 +4,7 @@ pipeline {
         stage('checkout'){
             steps{
                 script{
-                    checkout
+                    git 'https://github.com/galfrylich/finalProject'
                 }
             }
         }
