@@ -1,6 +1,13 @@
 pipeline {
     agent any 
     stages {
+        stage('checkout'){
+            steps{
+                script{
+                    checkout
+                }
+            }
+        }
         stage('Example Build') {
             steps {
                 echo 'Hello World'
