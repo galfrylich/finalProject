@@ -1,5 +1,9 @@
 pipeline {
     agent any 
+    enviorment{
+        dockerhub=credentials('dockerhub')
+
+    }
     stages {
         stage('Git Checkout') {
             steps {
