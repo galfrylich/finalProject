@@ -6,9 +6,12 @@ HOME_DIR=/home/ec2-user
 SECRET_KEY=${HOME_DIR}/key
 PIPLINE_WORKSPACE=/var/lib/jenkins/workspace/final-project
 
-if len(sys.argv) != 2:
-    print('please enter one argument')
-    sys.exit()
+if [ $# -lt 2 ]; then
+    echo "please enter one argument"
+    exit 1
+fi
+    
+   
 
 machine_name=$1
 
