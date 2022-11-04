@@ -17,7 +17,8 @@ machine_name=$1
 
 echo $#
 echo $SECRET_KEY
-ssh -i $SECRET_KEY -o StrictHostKeyChecking=no -l ec2-user $machine_name -p $HOME_DIR/final-project
-scp -i $SECRET_KEY $PIPLINE_WORKSPACE/docker-compose.yml $machine_name:$HOME_DIR/final-project
-
+ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name -p $HOME_DIR/final-project
+scp  $PIPLINE_WORKSPACE/docker-compose.yml $machine_name:$HOME_DIR/final-project
+docker system prune -a --volumes -f
+docker-compose up -d
 
