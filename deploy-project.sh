@@ -16,7 +16,8 @@ fi
 machine_name=$1
 
 echo $#
-ssh -i $SECRET_KEY -o StrictHostKeyChecking=no $machine_name mkdir -p $HOME_DIR/final-project
+echo $SECRET_KEY
+ssh -i $SECRET_KEY ec2-user@$machine_name mkdir -p $HOME_DIR/final-project
 scp -i $SECRET_KEY $PIPLINE_WORKSPACE/docker-compose.yml $machine_name:$HOME_DIR/final-project
 
 
