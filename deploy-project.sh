@@ -19,6 +19,6 @@ machine_name=$1
 
 ssh -v -o StrictHostKeyChecking=no -l ec2-user test mkdir -p $HOME_DIR/final-project
 #ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name mkdir -p $HOME_DIR/final-project
-scp -v $PIPLINE_WORKSPACE/docker-compose.yml $machine_name:$HOME_DIR/final-project
+scp -v $PIPLINE_WORKSPACE/docker-compose.yml ec2-user@$machine_name:$HOME_DIR/final-project
 
 
