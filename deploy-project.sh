@@ -20,7 +20,7 @@ machine_name=$1
 
 ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name -p $HOME_DIR/final-project
 scp  $PIPLINE_WORKSPACE/docker-compose.yml $machine_name:$HOME_DIR/final-project
-ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name cd $HOME_DIR/finale-project docker system prune -a --volumes -f
-ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name cd $HOME_DIR/finale-project docker-compose up -d
+ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name  $HOME_DIR/finale-project docker system prune -a --volumes -f
+ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name  $HOME_DIR/finale-project docker-compose up -d
 
 
