@@ -17,8 +17,8 @@ fi
 
 machine_name=$1
 
-
-ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name mkdir -p $HOME_DIR/final-project
+ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name mkdir -p $HOME_DIR/final-project -v
+#ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name mkdir -p $HOME_DIR/final-project
 scp  $PIPLINE_WORKSPACE/docker-compose.yml $machine_name:$HOME_DIR/final-project
 
 
