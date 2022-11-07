@@ -16,6 +16,6 @@ REMOT_UNAME=${REMOT_UNAME}
 ```
 > Run ``docker compose up``
 
-## screen shot example
+## Screen shot example
 
 ![This is an image](./screen_shots/Screenshot.jpg)
