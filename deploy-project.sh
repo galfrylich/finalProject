@@ -15,7 +15,7 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-# cnnecting to machine create new dir
+# cnnecting to machine and create new dir
 ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name mkdir -p $HOME_DIR/$DIR_NAME
 # copy docker compose to machine
 scp $PIPLINE_WORKSPACE/docker-compose.yml ec2-user@$machine_name:$HOME_DIR/$DIR_NAME
@@ -24,9 +24,9 @@ ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker system prune -a 
 # run docker compose up
 ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker-compose up -d"
 
-##if [ $machine_name == "test"]; then 
-   # scp $PIPLINE_WORKSPACE/tests ec2-user@$machine_name:$HOME_DIR/final-project
-   # ssh ec2-user@test "cd /home/ec2-user/final-project/tests; ./test.sh " 
+if [ $machine_name == "test"]; then 
+   scp $PIPLINE_WORKSPACE/tests ec2-user@$machine_name:$HOME_DIR/$DIR_NAME
+   ssh ec2-user@test "cd /home/ec2-user/$DIR_NAME/tests; ./test.sh " 
 
 
 
