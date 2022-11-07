@@ -24,7 +24,7 @@ ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker system prune -a 
 # run docker compose up
 ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker-compose up -d"
 
-if [ $machine_name == "test"]; then 
+if [ $machine_name == "test" ]; then 
    scp $PIPLINE_WORKSPACE/tests ec2-user@$machine_name:$HOME_DIR/$DIR_NAME
    ssh ec2-user@test "cd /home/ec2-user/$DIR_NAME/tests; ./test.sh " 
 fi   
