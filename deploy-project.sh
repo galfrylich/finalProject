@@ -26,7 +26,7 @@ ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker-compose up -d"
 
 if [ $machine_name == "test" ]; then 
    scp /var/lib/jenkins/workspace/final-project/tests/test.sh ec2-user@$machine_name:$HOME_DIR/$DIR_NAME
-   sudo chmod -R 577 /home/ec2-user/$DIR_NAME/test.sh
+   ssh ec2-user@test "chmod u+x $HOME_DIR/$DIR_NAME/testfile.sh"
    ssh ec2-user@test "cd /home/ec2-user/$DIR_NAME; ./test.sh " 
 fi   
 
