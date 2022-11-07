@@ -14,25 +14,42 @@ pipeline {
                  url: 'https://github.com/galfrylich/finalProject']]])
             }
         }
-        stage('Build dokcer image') {
+        stage('Build docker image') {
             steps {
                 script{
-                    sh 'docker build -t web-app .'
+                    dockerImage = docker.build("galfrylich/web-app:latest")
                 }
             }
         }
         stage('push image to dockerhub') {
             steps {
                 script{
-                   withCredentials([string(credentialsId: 'docker-pwd', variable: 'docker-pwd')]) {
-                   sh 'docker login -u galfrylich -p ${docker-pwd}'
-
-                    } 
-                   sh 'docker push galfrylich/web-app'   
+                    withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+                    dockerImage.push()
+                    }
                 }
             }
         }
+        stage('connect to test machine'){
+            steps {
+                sshagent(['ssh-key']) {
+                   sh 'sudo chmod -R 577 ./deploy-project.sh'
+                   sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh test'
+                   
+                }
+            }
+        }
+        stage('connect to production machine'){
+            steps {
+                sshagent(['ssh-key']) {
+                   sh 'sudo chmod -R 577 ./deploy-project.sh'
+                   sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh prod'
+                }
+            }
+        }
+        
     }
+    
 }
 
 
