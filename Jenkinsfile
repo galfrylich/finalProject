@@ -21,9 +21,15 @@ pipeline {
                 }
             }
         }
-        stage('Example Build') {
+        stage('push image to dockerhub') {
             steps {
-                echo 'Hello World from space'
+                script{
+                   withCredentials([string(credentialsId: 'docker-pwd', variable: 'docker-pwd')]) {
+                   sh 'docker login -u galfrylich -p ${docker-pwd}'
+
+                    } 
+                   sh 'docker push galfrylich/web-app'   
+                }
             }
         }
     }
