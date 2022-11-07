@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo 'hello gal'
+curl http://checkip.amazonaws.com
