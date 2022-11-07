@@ -1,5 +1,10 @@
 #!/bin/bash -ex 
 
-curl  http://checkip.amazonaws.com
-curl -Is http://checkip.amazonaws.co | head -n 1
+URL=curl  http://checkip.amazonaws.com
+STSTUS_CODE=curl -Is $URL | head -n 1
+if [ $STSTUS_CODE == "HTTP/1.1 200 OK" ]; then
+    echo "App is running"
+else 
+    echo "response code:" + $STSTUS_CODE + ", exit pipline"
+    exit 1 
 
