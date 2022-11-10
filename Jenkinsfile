@@ -30,19 +30,20 @@ pipeline {
                 }
             }
         }
-        stage('connect to test machine'){
+        stage('Deploy to test machine'){
             steps {
                 sshagent(['ssh-key']) {
-                   sh 'sudo chmod -R 577 ./deploy-project.sh'
+                   sh 'sudo chmod -R 755 ./deploy-project.sh'
                    sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh test'
                    
                 }
             }
         }
-        stage('connect to production machine'){
+        stage('Deploy to production machine'){
             steps {
                 sshagent(['ssh-key']) {
-                   sh 'sudo chmod -R 577 ./deploy-project.sh'
+                   sh 'sudo chmod -R 755 ./deploy-project.sh'
+                   input 'Deploy to Production?'
                    sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh prod'
                 }
             }
