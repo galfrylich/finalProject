@@ -55,20 +55,7 @@ pipeline {
                 }
             }
         }
-        stage('Email') {
-    steps {
-        script {
-            def mailRecipients = 'galfrylich@gmail.com'
-            def jobName = currentBuild.fullDisplayName
-            emailext body: '''${SCRIPT, template="groovy-html.template"}''',
-            mimeType: 'text/html',
-            subject: "[Jenkins] ${jobName}",
-            to: "${mailRecipients}",
-            replyTo: "${mailRecipients}",
-            recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-        }
-    }
-}
+        
         
     }
     post { 
@@ -76,7 +63,7 @@ pipeline {
             echo 'Deploy succeeded!'
         }
         failure {
-            emailext body: ' Something is wrong , check console output at ${BUILD_URL}',
+            emailext body: 'Something is wrong , check console output at ${BUILD_URL} ',
             subject: 'Failed Pipeline: ${PROJECT_NAME} - build #${BUILD_NUMBER}',
             to: 'galfrylich@gmail.com'
            
