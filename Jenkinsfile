@@ -1,30 +1,35 @@
 pipeline {
     agent any 
     environment {
-        dockerhub=credentials('dockerhub')
-
+        DockerHubRegistryCredential =credentials('dockerhub')
+        DockerHubRegistry = 'galfrylich/web-app'
+        GitURL = 'https://hub.docker.com/repository/docker/yossibenga/flask_app'
+        GitcredentialsId = '90a24bb8-70d5-4b6c-8c60-35de22dc627f'
     }
     stages {
         stage('Git Checkout') {
             steps {
+
                 checkout([$class: 'GitSCM',
                  branches: [[name: '*/main']], 
                  extensions: [], 
-                 userRemoteConfigs: [[credentialsId: 'e3494a8c-29b8-4649-8ff3-fa0a1d2c9b79',
-                 url: 'https://github.com/galfrylich/finalProject']]])
+                 userRemoteConfigs: [[credentialsId: "$GitcredentialsId",
+                 url: "$GitURL"]]])
             }
         }
         stage('Build docker image') {
             steps {
+                echo '# # # # # STAGE 2 - Build Image # # # # #'
                 script{
-                    dockerImage = docker.build("galfrylich/web-app:latest")
+                    dockerImage = docker.build("$DockerHubRegistry:latest")
                 }
             }
         }
         stage('push image to dockerhub') {
             steps {
                 script{
-                    withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+                    echo '# # # # # STAGE 3 - Push Image # # # # #'
+                    withDockerRegistry([ credentialsId: "$DockerHubRegistryCredential", url: "" ]) {
                     dockerImage.push()
                     }
                 }
@@ -32,15 +37,17 @@ pipeline {
         }
         stage('Deploy to test machine'){
             steps {
+                echo '# # # # # STAGE 4 - Deploy to test machine # # # # #'
                 sshagent(['ssh-key']) {
                    sh 'sudo chmod -R 755 ./deploy-project.sh'
-                   sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh test'
+                   sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh te'
                    
                 }
             }
         }
         stage('Deploy to production machine'){
             steps {
+                echo '# # # # # STAGE 4 - Deploy to production machine # # # # #'
                 sshagent(['ssh-key']) {
                    sh 'sudo chmod -R 755 ./deploy-project.sh'
                    input 'Deploy to Production?'
@@ -48,6 +55,12 @@ pipeline {
                 }
             }
         }
+        post { 
+        always { 
+            echo 'I will always say Hello again!'
+            }
+        }
+
         
     }
     
