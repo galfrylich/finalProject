@@ -3,8 +3,8 @@ pipeline {
     environment {
         DockerHubRegistryCredential =credentials('dockerhub')
         DockerHubRegistry = 'galfrylich/web-app'
-        GitURL = 'https://hub.docker.com/repository/docker/yossibenga/flask_app'
-        GitcredentialsId = '90a24bb8-70d5-4b6c-8c60-35de22dc627f'
+        GitURL = 'https://github.com/galfrylich/finalProject'
+        GitcredentialsId = 'e3494a8c-29b8-4649-8ff3-fa0a1d2c9b79'
     }
     stages {
         stage('Git Checkout') {
