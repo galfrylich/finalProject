@@ -62,9 +62,10 @@ pipeline {
             echo 'Deploy succeeded!'
         }
         failure {
-            mail to: 'galfrylich@gmail.com',
-             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-             body: "Something is wrong with ${env.BUILD_URL}"
+            emailext body: 'Something is wrong with ${env.BUILD_URL}',
+            subject: 'Failed Pipeline: ${currentBuild.fullDisplayName}',
+            to: 'galfrylich@gmail.com'
+           
         }
     
     }
