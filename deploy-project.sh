@@ -55,7 +55,7 @@ main (){
     fi   
 
 }
-
+check_args
 main $machine_name
 
 
