@@ -55,17 +55,20 @@ pipeline {
                 }
             }
         }
-        stage('Send email') {
-            def mailRecipients = "galfrylich@gmail.com"
+        stage('Email') {
+    steps {
+        script {
+            def mailRecipients = 'galfrylich@gmail.com'
             def jobName = currentBuild.fullDisplayName
-
             emailext body: '''${SCRIPT, template="groovy-html.template"}''',
-                mimeType: 'text/html',
-                subject: "[Jenkins] ${jobName}",
-                to: "${mailRecipients}",
-                replyTo: "${mailRecipients}",
-                recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+            mimeType: 'text/html',
+            subject: "[Jenkins] ${jobName}",
+            to: "${mailRecipients}",
+            replyTo: "${mailRecipients}",
+            recipientProviders: [[$class: 'CulpritsRecipientProvider']]
         }
+    }
+}
         
     }
     post { 
