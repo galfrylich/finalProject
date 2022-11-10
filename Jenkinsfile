@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     environment {
-        DockerHubRegistryCredential =credentials('dockerhub')
+        dockerhub =credentials('dockerhub')
         DockerHubRegistry = 'galfrylich/web-app'
         GitURL = 'https://github.com/galfrylich/finalProject'
         GitcredentialsId = 'e3494a8c-29b8-4649-8ff3-fa0a1d2c9b79'
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script{
                     echo '# # # # # STAGE 3 - Push Image # # # # #'
-                    withDockerRegistry([ credentialsId: "$DockerHubRegistryCredential", url: "" ]) {
+                    withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
                     dockerImage.push()
                     }
                 }
