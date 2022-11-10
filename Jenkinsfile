@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-
+                echo '# # # # # STAGE 1 - Git checkout # # # # #'
                 checkout([$class: 'GitSCM',
                  branches: [[name: '*/main']], 
                  extensions: [], 
@@ -40,14 +40,14 @@ pipeline {
                 echo '# # # # # STAGE 4 - Deploy to test machine # # # # #'
                 sshagent(['ssh-key']) {
                    sh 'sudo chmod -R 755 ./deploy-project.sh'
-                   sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh te'
+                   sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh test'
                    
                 }
             }
         }
         stage('Deploy to production machine'){
             steps {
-                echo '# # # # # STAGE 4 - Deploy to production machine # # # # #'
+                echo '# # # # # STAGE 5 - Deploy to production machine # # # # #'
                 sshagent(['ssh-key']) {
                    sh 'sudo chmod -R 755 ./deploy-project.sh'
                    input 'Deploy to Production?'
