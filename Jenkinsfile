@@ -58,8 +58,13 @@ pipeline {
         
     }
     post { 
-        always { 
-            echo 'I will always say Hello again!'
+        success {
+            echo 'Deploy succeeded!'
+        }
+        failure {
+            mail to: 'galfrylich@gmail.com',
+             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Something is wrong with ${env.BUILD_URL}"
         }
     
     }
