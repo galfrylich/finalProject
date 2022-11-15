@@ -22,9 +22,5 @@ services:
       hostname: db  
       environment:
         MYSQL_ROOT_PASSWORD: root
-      healthcheck:
-            test: ["CMD", "mysqladmin" ,"ping", "-h", "db"]
-            timeout: 20s
-            retries: 10  
       volumes:
         - ./db:/docker-entrypoint-initdb.d/:ro
