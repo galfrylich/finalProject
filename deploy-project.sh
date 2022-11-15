@@ -39,7 +39,7 @@ main (){
     # remove all images and containers
     echo "Remove all containers and images"
     ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker-compose down"
-    # run docker compose up
+    echo "run docker compose up"
     ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker-compose up -d --no-build"
 
     ## DO TESTS IF YOUR IN TEST MACHINE ##
