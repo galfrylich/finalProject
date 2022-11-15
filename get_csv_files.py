@@ -29,7 +29,7 @@ def file_transfer():
             for file in directory_structure:
                 #if not os.path.exists(os.path.join(local_dir, file.filename)):
                     remote_path = "/var/tmp/csv_files" + '/' + file.filename
-                    local_path = os.path.join(str(local_dir), file.filename)
+                    local_path = os.path.join("/app/csv_files", file.filename)
                     csv_files.append(file.filename)
                     sftp.get(remote_path, local_path)
             sftp.close()
