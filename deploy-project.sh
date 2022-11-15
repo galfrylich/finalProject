@@ -39,6 +39,7 @@ main (){
     # remove all images and containers
     echo "Remove all containers and images"
     ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker-compose down -v"
+    ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker system prune -a --volumes -f"
     echo "run docker compose up"
     ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker-compose up -d --no-build"
 
