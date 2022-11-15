@@ -27,7 +27,7 @@ def show_students():
     cursor = conn.cursor()
     cursor.execute("USE attendance_DB")
     cursor.execute("SELECT * FROM attendance_list")
-    all_students = cursor.fetchall()
+    all_students = cursor.execute("SELECT * FROM attendance_list ORDER BY name ASC")
     print(all_students)
     return render_template('show_students.html', students=all_students)
 
