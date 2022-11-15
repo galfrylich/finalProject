@@ -40,7 +40,7 @@ pipeline {
                 echo '# # # # # STAGE 4 - Deploy to test machine # # # # #'
                 sshagent(['ssh-key']) {
                    sh 'sudo chmod -R 755 ./deploy-project.sh'
-                   sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh test'
+                   sh 'bash ./deploy-project.sh test'
                    
                 }
             }
@@ -50,8 +50,9 @@ pipeline {
                 echo '# # # # # STAGE 5 - Deploy to production machine # # # # #'
                 sshagent(['ssh-key']) {
                    sh 'sudo chmod -R 755 ./deploy-project.sh'
-                   input 'Deploy to Production?'
-                   sh '/var/lib/jenkins/workspace/final-project/deploy-project.sh prod'
+                   input(message:"Deploy to Production?",
+				      ok: "yes")
+                   sh 'bash ./deploy-project.sh prod'
                 }
             }
         }
