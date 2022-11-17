@@ -32,10 +32,12 @@ check_args() {
 main (){
     # Connecting to machine and create new dir
     echo "Connecting to $machine_name"
-    ssh -o StrictHostKeyChecking=no -l ec2-user $machine_name mkdir -p $HOME_DIR/$DIR_NAME
+    ssh ec2-user@$machine_name "mkdir -p $HOME_DIR/$DIR_NAME"
     # Copy docker compose to machine
     echo "Copy docker-compose to $machine_name"
     scp $PIPLINE_WORKSPACE/docker-compose.yml ec2-user@$machine_name:$HOME_DIR/$DIR_NAME
+    echo "Copy .env to $machine_name"
+    scp $PIPLINE_WORKSPACE/.env ec2-user@$machine_name:$HOME_DIR/$DIR_NAME
     # remove all images and containers
     echo "Remove all containers and images"
     ssh ec2-user@$machine_name "cd /home/ec2-user/$DIR_NAME; docker-compose down -v"
