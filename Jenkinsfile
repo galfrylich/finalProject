@@ -40,7 +40,7 @@ pipeline {
                 echo '# # # # # STAGE 4 - Deploy to test machine # # # # #'
                 sshagent(['ssh-key']) {
                    sh 'sudo chmod -R 755 ./deploy-project.sh'
-                   sh 'bash ./deploy-project.sh te'
+                   sh 'bash ./deploy-project.sh test'
                    
                 }
             }
