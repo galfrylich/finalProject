@@ -64,7 +64,7 @@ pipeline {
             echo 'Deploy succeeded!'
         }
         failure {
-            emailext body: 'Something is wrong , check console output at ${BUILD_URL} ',
+            emailext body: 'Something is wrong , check console output at ${env.BUILD_URL} ',
             subject: 'Failed Pipeline: ${PROJECT_NAME} - build #${BUILD_NUMBER}',
             to: 'galfrylich@gmail.com'
            
